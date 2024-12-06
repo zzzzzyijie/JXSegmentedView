@@ -216,7 +216,7 @@ open class JXSegmentedView: UIView, JXSegmentedViewRTLCompatible {
         commonInit()
     }
 
-    #warning("to check")
+    // jie: change this
     open func commonInit() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -256,9 +256,11 @@ open class JXSegmentedView: UIView, JXSegmentedViewRTLCompatible {
 
     open override func layoutSubviews() {
         super.layoutSubviews()
+        // jie: change this
         commonUIUpdate()
     }
     
+    // jie: change this
     open func commonUIUpdate() {
         //部分使用者为了适配不同的手机屏幕尺寸，JXSegmentedView的宽高比要求保持一样。所以它的高度就会因为不同宽度的屏幕而不一样。计算出来的高度，有时候会是位数很长的浮点数，如果把这个高度设置给UICollectionView就会触发内部的一个错误。所以，为了规避这个问题，在这里对高度统一向下取整。
         //如果向下取整导致了你的页面异常，请自己重新设置JXSegmentedView的高度，保证为整数即可。
