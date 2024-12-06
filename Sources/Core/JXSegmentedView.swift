@@ -198,7 +198,7 @@ open class JXSegmentedView: UIView, JXSegmentedViewRTLCompatible {
     private var lastContentOffset: CGPoint = CGPoint.zero
     /// 正在滚动中的目标index。用于处理正在滚动列表的时候，立即点击item，会导致界面显示异常。
     private var scrollingTargetIndex: Int = -1
-    private var isFirstLayoutSubviews = true
+    open var isFirstLayoutSubviews = true
 
     deinit {
         contentScrollView?.removeObserver(self, forKeyPath: "contentOffset")
@@ -216,7 +216,8 @@ open class JXSegmentedView: UIView, JXSegmentedViewRTLCompatible {
         commonInit()
     }
 
-    private func commonInit() {
+    #warning("to check")
+    open func commonInit() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         collectionView = JXSegmentedCollectionView(frame: CGRect.zero, collectionViewLayout: layout)
@@ -255,7 +256,10 @@ open class JXSegmentedView: UIView, JXSegmentedViewRTLCompatible {
 
     open override func layoutSubviews() {
         super.layoutSubviews()
-
+        commonUIUpdate()
+    }
+    
+    open func commonUIUpdate() {
         //部分使用者为了适配不同的手机屏幕尺寸，JXSegmentedView的宽高比要求保持一样。所以它的高度就会因为不同宽度的屏幕而不一样。计算出来的高度，有时候会是位数很长的浮点数，如果把这个高度设置给UICollectionView就会触发内部的一个错误。所以，为了规避这个问题，在这里对高度统一向下取整。
         //如果向下取整导致了你的页面异常，请自己重新设置JXSegmentedView的高度，保证为整数即可。
         let targetFrame = CGRect(x: 0, y: 0, width: bounds.size.width, height: floor(bounds.size.height))
